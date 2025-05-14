@@ -6,6 +6,7 @@ return {
 
     conform.setup({
       formatters_by_ft = {
+        astro = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
@@ -15,10 +16,7 @@ return {
         json = { "prettier" },
         yaml = { "prettier" },
         markdown = { "prettier" },
-        graphql = { "prettier" },
-        liquid = { "prettier" },
         lua = { "stylua" },
-        python = { "isort", "black" },
         go = { "goimports", "gofmt" },
       },
       format_on_save = {
