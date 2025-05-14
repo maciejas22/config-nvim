@@ -1,19 +1,14 @@
 return {
-  "numToStr/Comment.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  "echasnovski/mini.comment",
+  event = "VeryLazy",
   dependencies = {
     "JoosepAlviste/nvim-ts-context-commentstring",
   },
-  config = function()
-    -- import comment plugin safely
-    local comment = require("Comment")
-
-    local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
-
-    -- enable comment
-    comment.setup({
-      -- for commenting tsx, jsx, svelte, html files
-      pre_hook = ts_context_commentstring.create_pre_hook(),
-    })
-  end,
+  opts = {
+    options = {
+      custom_commentstring = function()
+        return require("ts_context_commentstring").calculate_commentstring() or vim.bo.commentstring
+      end,
+    },
+  },
 }

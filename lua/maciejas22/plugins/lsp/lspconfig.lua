@@ -2,7 +2,7 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
+    "saghen/blink.cmp",
     { "antosha417/nvim-lsp-file-operations", config = true },
   },
   config = function()
@@ -10,7 +10,7 @@ return {
 
     local mason_lspconfig = require("mason-lspconfig")
 
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local blink_cmp = require("blink.cmp")
 
     local keymap = vim.keymap -- for conciseness
 
@@ -71,8 +71,7 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    local capabilities = cmp_nvim_lsp.default_capabilities()
-    capabilities.offsetEncoding = { "utf-16" }
+    local capabilities = blink_cmp.get_lsp_capabilities()
 
     vim.lsp.config("*", {
       capabilities = capabilities,
