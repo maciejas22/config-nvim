@@ -1,6 +1,6 @@
 return {
   "echasnovski/mini.comment",
-  event = "VeryLazy",
+  event = { "BufReadPost", "BufNewFile" },
   dependencies = {
     "JoosepAlviste/nvim-ts-context-commentstring",
   },

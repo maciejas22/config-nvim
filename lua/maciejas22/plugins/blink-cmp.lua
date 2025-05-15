@@ -1,7 +1,10 @@
 return {
   "saghen/blink.cmp",
   version = "*",
+  event = "InsertEnter",
 
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
   opts = {
     keymap = {
       preset = "default",
