@@ -1,7 +1,7 @@
 return {
   "nvim-lualine/lualine.nvim",
   lazy = false,
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = { "mini.icons" },
   config = function()
     local lualine = require("lualine")
     local lazy_status = require("lazy.status")
@@ -56,6 +56,13 @@ return {
         theme = my_lualine_theme,
       },
       sections = {
+        lualine_c = {
+          {
+            "filename",
+            path = 1,
+            file_status = true,
+          },
+        },
         lualine_x = {
           {
             lazy_status.updates,

@@ -1,12 +1,65 @@
 return {
   "stevearc/oil.nvim",
-  dependencies = { { "nvim-tree/nvim-web-devicons", opts = {} } },
+  dependencies = { { "mini.icons", opts = {} } },
   lazy = false,
-  config = function()
+  keys = {
+    { "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
+  },
+  ---@module 'oil'
+  ---@type oil.SetupOpts
+  opts = {
+    view_options = {
+      show_hidden = true,
+    },
+    win_options = {
+      winbar = "%#@attribute.builtin#%{substitute(v:lua.require('oil').get_current_dir(), '^' . $HOME, '~', '')}",
+    },
+    keymaps = {
+      ["g?"] = { "actions.show_help", desc = "Show Help", mode = "n" },
+      ["<CR>"] = { "actions.select", desc = "Select Item" },
+      ["<leader>ev"] = { "actions.select", desc = "Open in Vertical Split", opts = { vertical = true } },
+      ["<leader>eh"] = { "actions.select", desc = "Open in Horizontal Split", opts = { horizontal = true } },
+      ["<leader>et"] = { "actions.select", desc = "Open in New Tab", opts = { tab = true } },
+      ["<leader>ep"] = { "actions.preview", desc = "Preview File" },
+      ["<leader>ec"] = { "actions.close", desc = "Close Oil", mode = "n" },
+      ["<leader>er"] = { "actions.refresh", desc = "Refresh View" },
+      ["-"] = { "actions.parent", desc = "Go to Parent Directory", mode = "n" },
+      ["_"] = { "actions.open_cwd", desc = "Open Current Working Directory", mode = "n" },
+      ["`"] = { "actions.cd", desc = "Change Directory", mode = "n" },
+      ["~"] = { "actions.cd", desc = "Change Directory (Tab Scope)", opts = { scope = "tab" }, mode = "n" },
+      ["gs"] = { "actions.change_sort", desc = "Change Sort Order", mode = "n" },
+      ["gx"] = { "actions.open_external", desc = "Open with External Program" },
+      ["g."] = { "actions.toggle_hidden", desc = "Toggle Hidden Files", mode = "n" },
+      ["g\\"] = { "actions.toggle_trash", desc = "Toggle Trash View", mode = "n" },
+    },
+  },
+  config = function(_, opts)
     local oil = require("oil")
-    oil.setup({})
+    oil.setup(opts)
 
-    local keymap = vim.keymap
-    keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        local bufname = vim.fn.bufname()
+
+        if bufname:match("^oil://") then
+          local dir = oil.get_current_dir()
+
+          if dir and vim.fn.isdirectory(dir) == 1 then
+            vim.cmd("lcd " .. vim.fn.escape(dir, " "))
+          end
+        else
+          local filepath = vim.fn.expand("%:p")
+
+          if filepath ~= "" then
+            local dir = vim.fn.fnamemodify(filepath, ":h")
+
+            if vim.fn.isdirectory(dir) == 1 then
+              vim.cmd("lcd " .. vim.fn.escape(dir, " "))
+            end
+          else
+          end
+        end
+      end,
+    })
   end,
 }

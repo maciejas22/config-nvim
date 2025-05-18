@@ -4,7 +4,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    "nvim-tree/nvim-web-devicons",
+    "mini.icons",
   },
   cmd = "Telescope",
   keys = {
@@ -13,11 +13,11 @@ return {
     { "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find string in cwd" },
     { "<leader>fc", "<cmd>Telescope grep_string<cr>", desc = "Find string under cursor in cwd" },
     { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find open buffers" },
+    { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Find marks" },
   },
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
-    local transform_mod = require("telescope.actions.mt").transform_mod
 
     telescope.setup({
       defaults = {
@@ -25,8 +25,6 @@ return {
         file_ignore_patterns = { ".git/", "node_modules/" },
         mappings = {
           i = {
-            ["<C-k>"] = actions.move_selection_previous,
-            ["<C-j>"] = actions.move_selection_next,
             ["<C-q>"] = actions.send_selected_to_qflist,
           },
         },

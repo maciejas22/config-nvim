@@ -6,11 +6,6 @@ return {
   },
   config = function()
     local mason = require("mason")
-
-    local mason_lspconfig = require("mason-lspconfig")
-
-    local mason_tool_installer = require("mason-tool-installer")
-
     mason.setup({
       ui = {
         icons = {
@@ -21,6 +16,7 @@ return {
       },
     })
 
+    local mason_lspconfig = require("mason-lspconfig")
     mason_lspconfig.setup({
       automatic_installation = true,
       ensure_installed = {
@@ -34,6 +30,7 @@ return {
       },
     })
 
+    local mason_tool_installer = require("mason-tool-installer")
     mason_tool_installer.setup({
       ensure_installed = {
         "prettier",
