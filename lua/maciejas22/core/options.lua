@@ -38,6 +38,21 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- turn off swapfile
 opt.swapfile = false
 
-if vim.fn.has("nvim") == 1 and vim.fn.executable("nvr") == 1 then
-  vim.env.GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"
+function EditLineFromLazygit(file_path, line)
+  local path = vim.fn.expand("%:p")
+  if path == file_path then
+    vim.cmd(tostring(line))
+  else
+    vim.cmd("e " .. file_path)
+    vim.cmd(tostring(line))
+  end
+end
+
+function EditFromLazygit(file_path)
+  local path = vim.fn.expand("%:p")
+  if path == file_path then
+    return
+  else
+    vim.cmd("e " .. file_path)
+  end
 end
