@@ -215,6 +215,7 @@ return {
     },
   },
   opts = {
+    { "fzf-lua", "default-prompt" },
     oldfiles = {
       include_current_session = true,
     },
@@ -238,13 +239,12 @@ return {
     btags = { previewer = "bat" },
     fzf_opts = { ["--cycle"] = true },
     files = {
-      cmd = os.getenv("FZF_DEFAULT_COMMAND"),
-      cwd_prompt = true,
-      cwd_prompt_shorten_len = 1,
+      find_opts = [[-type f \! -path '*/.git/*' \! -path '*/node_modules/*']],
+      rg_opts = [[--color=never --hidden --files -g "!.git" -g "!node_modules"]],
+      fd_opts = [[--color=never --hidden --type f --exclude .git --exclude node_modules]],
     },
     grep = {
-      git_icons = false,
-      exec_empty_query = true,
+      rg_opts = [[--color=never --hidden -g "!.git" -g "!node_modules"]],
     },
     keymap = {
       fzf = {
