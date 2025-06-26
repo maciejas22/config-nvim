@@ -4,28 +4,28 @@ return {
   dependencies = { "mini.icons" },
   keys = {
     {
-      "<leader>gb",
+      "<leader>sb",
       function()
         require("fzf-lua").lgrep_curbuf()
       end,
       desc = "Fuzzily search in current buffer",
     },
     {
-      "<leader>gW",
+      "<leader>sW",
       function()
         require("fzf-lua").grep_cWORD({ hidden = true })
       end,
       desc = "Fuzzily search current WORD",
     },
     {
-      "<leader>gw",
+      "<leader>sw",
       function()
         require("fzf-lua").grep_cword({ hidden = true })
       end,
       desc = "Fuzzily search current word",
     },
     {
-      "<leader>g/",
+      "<leader>sg",
       function()
         require("fzf-lua").live_grep({ hidden = true })
       end,
@@ -83,14 +83,14 @@ return {
       desc = "Fzf resume previous search",
     },
     {
-      "<leader>fh",
+      "<leader>sh",
       function()
         require("fzf-lua").help_tags()
       end,
       desc = "Find help documentation",
     },
     {
-      "<leader>fk",
+      "<leader>sk",
       function()
         require("fzf-lua").keymaps({
           -- show_details = false,
@@ -102,21 +102,21 @@ return {
       desc = "Find keymaps",
     },
     {
-      "<leader>fm",
+      "<leader>sm",
       function()
         require("fzf-lua").marks()
       end,
       desc = "Find marks",
     },
     {
-      "<leader>xw",
+      "<leader>dw",
       function()
         require("fzf-lua").diagnostics_workspace()
       end,
       desc = "View the project diagnostics",
     },
     {
-      "<leader>xd",
+      "<leader>dd",
       function()
         require("fzf-lua").diagnostics_document()
       end,
@@ -140,7 +140,7 @@ return {
     },
     -- gra is by default for code actions. Overriding it to use fzf-lua
     {
-      "gra",
+      "ca",
       function()
         require("fzf-lua").lsp_code_actions({
           winopts = {
@@ -156,28 +156,28 @@ return {
       desc = "View the code actions",
     },
     {
-      "grt",
+      "gt",
       function()
         require("fzf-lua").lsp_typedefs()
       end,
       desc = "View the type definitions",
     },
     {
-      "grd",
+      "gd",
       function()
         require("fzf-lua").lsp_definitions()
       end,
       desc = "View the definitions",
     },
     {
-      "gri",
+      "gi",
       function()
         require("fzf-lua").lsp_implementations()
       end,
       desc = "View the implementations",
     },
     {
-      "grr",
+      "gr",
       function()
         require("fzf-lua").lsp_references()
       end,
