@@ -244,7 +244,9 @@ return {
       fd_opts = [[--color=never --hidden --type f --exclude .git --exclude node_modules]],
     },
     grep = {
-      rg_opts = [[--color=never --hidden -g "!.git" -g "!node_modules"]],
+      rg_glob = true,
+      glob_flag = "--iglob",
+      glob_separator = "%s%-%-",
     },
     keymap = {
       fzf = {

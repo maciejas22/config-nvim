@@ -33,33 +33,4 @@ return {
       ["g\\"] = { "actions.toggle_trash", desc = "Toggle Trash View", mode = "n" },
     },
   },
-  config = function(_, opts)
-    local oil = require("oil")
-    oil.setup(opts)
-
-    vim.api.nvim_create_autocmd("VimEnter", {
-      callback = function()
-        local bufname = vim.fn.bufname()
-
-        if bufname:match("^oil://") then
-          local dir = oil.get_current_dir()
-
-          if dir and vim.fn.isdirectory(dir) == 1 then
-            vim.cmd("lcd " .. vim.fn.escape(dir, " "))
-          end
-        else
-          local filepath = vim.fn.expand("%:p")
-
-          if filepath ~= "" then
-            local dir = vim.fn.fnamemodify(filepath, ":h")
-
-            if vim.fn.isdirectory(dir) == 1 then
-              vim.cmd("lcd " .. vim.fn.escape(dir, " "))
-            end
-          else
-          end
-        end
-      end,
-    })
-  end,
 }
