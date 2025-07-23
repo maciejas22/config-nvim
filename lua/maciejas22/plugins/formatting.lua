@@ -6,14 +6,15 @@ return {
 
     conform.setup({
       formatters_by_ft = {
-        astro = { "prettier" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescriptreact = { "prettier" },
+        astro = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        javascript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        typescript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        javascriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        typescriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        svelte = { "biome", "prettier" },
         css = { "prettier" },
         html = { "prettier" },
-        json = { "prettier" },
+        json = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
         yaml = { "prettier" },
         markdown = { "prettier" },
         lua = { "stylua" },
