@@ -2,261 +2,115 @@ return {
   "ibhagwan/fzf-lua",
   enabled = true,
   dependencies = { "mini.icons" },
-  keys = {
-    {
-      "<leader>sb",
-      function()
-        require("fzf-lua").lgrep_curbuf()
-      end,
-      desc = "Fuzzily search in current buffer",
-    },
-    {
-      "<leader>sW",
-      function()
-        require("fzf-lua").grep_cWORD({ hidden = true })
-      end,
-      desc = "Fuzzily search current WORD",
-    },
-    {
-      "<leader>sw",
-      function()
-        require("fzf-lua").grep_cword({ hidden = true })
-      end,
-      desc = "Fuzzily search current word",
-    },
-    {
-      "<leader>sg",
-      function()
-        require("fzf-lua").live_grep({ hidden = true })
-      end,
-      desc = "Fuzzily search in current project",
-    },
-    {
-      "<leader>D",
-      function()
-        require("fzf-lua").diagnostics_document()
-      end,
-      desc = "Show buffer diagnostics",
-    },
-    {
-      "<leader>fx",
-      function()
-        require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
-      end,
-      desc = "Fuzzily find Neovim config",
-    },
-    {
-      "<leader>faf",
-      function()
-        require("fzf-lua").files({ hidden = true, no_ignore = true })
-      end,
-      desc = "Fuzzily find all files",
-    },
-    {
-      "<leader>ff",
-      function()
-        require("fzf-lua").files({ hidden = true })
-      end,
-      desc = "Fuzzily find files",
-    },
-    {
-      "<leader>fb",
-      function()
-        require("fzf-lua").buffers()
-      end,
-      desc = "Find open buffers",
-    },
-    {
-      "<leader>fr",
-      function()
-        require("fzf-lua").oldfiles()
-      end,
-      desc = "Fuzzily find recent files",
-    },
-    -- I already have fr for oldfiles, so I am using fzr for this kind of like
-    -- [fz]f [r]esume
-    {
-      "<leader>fzr",
-      function()
-        require("fzf-lua").resume()
-      end,
-      desc = "Fzf resume previous search",
-    },
-    {
-      "<leader>sh",
-      function()
-        require("fzf-lua").help_tags()
-      end,
-      desc = "Find help documentation",
-    },
-    {
-      "<leader>sk",
-      function()
-        require("fzf-lua").keymaps({
-          -- show_details = false,
-          winopts = {
-            preview = { hidden = true },
-          },
-        })
-      end,
-      desc = "Find keymaps",
-    },
-    {
-      "<leader>sm",
-      function()
-        require("fzf-lua").marks()
-      end,
-      desc = "Find marks",
-    },
-    {
-      "<leader>dw",
-      function()
-        require("fzf-lua").diagnostics_workspace()
-      end,
-      desc = "View the project diagnostics",
-    },
-    {
-      "<leader>dd",
-      function()
-        require("fzf-lua").diagnostics_document()
-      end,
-      desc = "View the document diagnostics",
-    },
-    -- making it gW to match gO for document symbols
-    {
-      "gW",
-      function()
-        require("fzf-lua").lsp_live_workspace_symbols()
-      end,
-      desc = "View the workspace symbols",
-    },
-    -- gO is by default, I want to use fzf-lua version one
-    {
-      "gO",
-      function()
-        require("fzf-lua").lsp_document_symbols()
-      end,
-      desc = "View the document symbols",
-    },
-    -- gra is by default for code actions. Overriding it to use fzf-lua
-    {
-      "ca",
-      function()
-        require("fzf-lua").lsp_code_actions({
-          winopts = {
-            preview = { hidden = true },
-            relative = "cursor",
-            row = 1.01,
-            col = 0,
-            width = 0.4,
-            height = 0.2,
-          },
-        })
-      end,
-      desc = "View the code actions",
-    },
-    {
-      "gt",
-      function()
-        require("fzf-lua").lsp_typedefs()
-      end,
-      desc = "View the type definitions",
-    },
-    {
-      "gd",
-      function()
-        require("fzf-lua").lsp_definitions()
-      end,
-      desc = "View the definitions",
-    },
-    {
-      "gi",
-      function()
-        require("fzf-lua").lsp_implementations()
-      end,
-      desc = "View the implementations",
-    },
-    {
-      "gr",
-      function()
-        require("fzf-lua").lsp_references()
-      end,
-      desc = "View the references",
-    },
-    {
-      -- This is the default nvim binding, which I am overriding here.
-      "z=",
-      function()
-        require("fzf-lua").spell_suggest({
-          winopts = {
-            relative = "cursor",
-            row = 1.01,
-            col = 0,
-            width = 0.2,
-            height = 0.2,
-          },
-        })
-      end,
-      desc = "Spelling suggestions (Overriden default z=)",
-    },
-    {
-      "<leader><tab>",
-      function()
-        require("fzf-lua").builtin()
-      end,
-      desc = "View FZF-lua options",
-    },
-    {
-      "<leader>fp",
-      function()
-        require("fzf-lua").zoxide()
-      end,
-      desc = "Switch between multiple recent directories (not necessarily a project)",
-    },
-  },
-  opts = {
-    { "fzf-lua", "default-prompt" },
-    oldfiles = {
-      include_current_session = true,
-    },
-    previewers = {
-      builtin = {
-        -- fzf-lua is very fast, but it really struggled to preview a couple files
-        -- in a repo. Those files were very big JavaScript files (1MB, minified, all on a single line).
-        -- It turns out it was Treesitter having trouble parsing the files.
-        -- With this change, the previewer will not add syntax highlighting to files larger than 100KB
-        -- (Yes, I know you shouldn't have 100KB minified files in source control.)
-        syntax_limit_b = 1024 * 100, -- 100KB
+  keys = function()
+    local function fzf_call(fn_name, opts)
+      return function()
+        require("fzf-lua")[fn_name](opts)
+      end
+    end
+
+    return {
+      { "<c-j>", "<c-j>", ft = "fzf", mode = "t", nowait = true },
+      { "<c-k>", "<c-k>", ft = "fzf", mode = "t", nowait = true },
+
+      { "<leader>,", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Switch Buffer" },
+      { "<leader>/", fzf_call("live_grep"), desc = "Grep (Root Dir)" },
+      { "<leader>:", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
+      { "<leader><space>", fzf_call("files"), desc = "Find Files (Root Dir)" },
+
+      -- find
+      { "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+      { "<leader>fc", fzf_call("files", { cwd = vim.fn.stdpath("config") }), desc = "Find Config File" },
+      { "<leader>ff", fzf_call("files"), desc = "Find Files (Root Dir)" },
+      { "<leader>fF", fzf_call("files", { root = false }), desc = "Find Files (cwd)" },
+      { "<leader>fg", "<cmd>FzfLua git_files<cr>", desc = "Find Files (git-files)" },
+      { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent" },
+      { "<leader>fR", fzf_call("oldfiles", { cwd = vim.uv.cwd() }), desc = "Recent (cwd)" },
+
+      -- git
+      { "<leader>gc", "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
+      { "<leader>gs", "<cmd>FzfLua git_status<CR>", desc = "Status" },
+
+      -- search
+      { '<leader>s"', "<cmd>FzfLua registers<cr>", desc = "Registers" },
+      { "<leader>sa", "<cmd>FzfLua autocmds<cr>", desc = "Auto Commands" },
+      { "<leader>sb", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
+      { "<leader>sc", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
+      { "<leader>sC", "<cmd>FzfLua commands<cr>", desc = "Commands" },
+      { "<leader>sd", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
+      { "<leader>sD", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
+      { "<leader>sg", fzf_call("live_grep"), desc = "Grep (Root Dir)" },
+      { "<leader>sG", fzf_call("live_grep", { root = false }), desc = "Grep (cwd)" },
+      { "<leader>sh", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
+      { "<leader>sH", "<cmd>FzfLua highlights<cr>", desc = "Search Highlight Groups" },
+      { "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "Jumplist" },
+      { "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },
+      { "<leader>sl", "<cmd>FzfLua loclist<cr>", desc = "Location List" },
+      { "<leader>sM", "<cmd>FzfLua man_pages<cr>", desc = "Man Pages" },
+      { "<leader>sm", "<cmd>FzfLua marks<cr>", desc = "Jump to Mark" },
+      { "<leader>sR", "<cmd>FzfLua resume<cr>", desc = "Resume" },
+      { "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
+      { "<leader>sw", fzf_call("grep_cword"), desc = "Word (Root Dir)" },
+      { "<leader>sW", fzf_call("grep_cword", { root = false }), desc = "Word (cwd)" },
+      { "<leader>sw", fzf_call("grep_visual"), mode = "v", desc = "Selection (Root Dir)" },
+      { "<leader>sW", fzf_call("grep_visual", { root = false }), mode = "v", desc = "Selection (cwd)" },
+      { "<leader>uC", fzf_call("colorschemes"), desc = "Colorscheme with Preview" },
+      { "<leader>ss", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Goto Symbol" },
+      { "<leader>sS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", desc = "Goto Symbol (Workspace)" },
+
+      -- lsp
+      { "gd", "<cmd>FzfLua lsp_definitions<cr>", desc = "Goto Definition" },
+      { "gr", "<cmd>FzfLua lsp_references<cr>", desc = "References", nowait = true },
+      { "gi", "<cmd>FzfLua lsp_implementations<cr>", desc = "Goto Implementation" },
+      { "gy", "<cmd>FzfLua lsp_typedefs<cr>", desc = "Goto T[y]pe Definition" },
+      { "ca", "<cmd>FzfLua lsp_code_actions<cr>", desc = "View the code actions" },
+    }
+  end,
+  opts = function()
+    local fzf = require("fzf-lua")
+    local actions = fzf.actions
+
+    return {
+      "default-title",
+      fzf_opts = {
+        ["--no-scrollbar"] = true,
+        ["--cycle"] = true,
       },
-    },
-    winopts = {
-      preview = { default = "bat" },
-    },
-    manpages = { previewer = "man_native" },
-    helptags = { previewer = "help_native" },
-    lsp = { code_actions = { previewer = "codeaction_native" } },
-    tags = { previewer = "bat" },
-    btags = { previewer = "bat" },
-    fzf_opts = { ["--cycle"] = true },
-    files = {
-      find_opts = [[-type f \! -path '*/.git/*' \! -path '*/node_modules/*']],
-      rg_opts = [[--color=never --hidden --files -g "!.git" -g "!node_modules"]],
-      fd_opts = [[--color=never --hidden --type f --exclude .git --exclude node_modules]],
-    },
-    grep = {
-      rg_glob = true,
-      glob_flag = "--iglob",
-      glob_separator = "%s%-%-",
-    },
-    keymap = {
-      fzf = {
-        -- mimic the telescope behavior
-        ["ctrl-q"] = "select-all+accept",
-        ["ctrl-d"] = "preview-page-down",
-        ["ctrl-u"] = "preview-page-up",
-        ["f4"] = "toggle-preview",
-        ["f3"] = "toggle-preview-wrap",
+      defaults = {
+        formatter = "path.dirname_first",
       },
-    },
-  },
+      lsp = { code_actions = { previewer = "codeaction_native" } },
+
+      winopts = {
+        preview = { default = "bat" },
+      },
+
+      files = {
+        cwd_prompt = false,
+        hidden = false,
+        no_ignore = false,
+        actions = {
+          ["alt-i"] = { actions.toggle_ignore },
+          ["alt-h"] = { actions.toggle_hidden },
+        },
+      },
+      grep = {
+        hidden = false,
+        no_ignore = false,
+        actions = {
+          ["alt-i"] = { actions.toggle_ignore },
+          ["alt-h"] = { actions.toggle_hidden },
+        },
+      },
+      keymap = {
+        fzf = {
+          ["ctrl-q"] = "select-all+accept",
+          ["ctrl-d"] = "preview-page-down",
+          ["ctrl-u"] = "preview-page-up",
+          ["f4"] = "toggle-preview",
+          ["f3"] = "toggle-preview-wrap",
+        },
+      },
+    }
+  end,
 }

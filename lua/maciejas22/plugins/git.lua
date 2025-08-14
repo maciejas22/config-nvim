@@ -1,60 +1,58 @@
 return {
   {
-    "lewis6991/gitsigns.nvim",
-    event = "BufReadPre",
-    opts = {
-      on_attach = function(buffer)
-        local gs = package.loaded.gitsigns
-
-        local function map(mode, l, r, desc)
-          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+    "echasnovski/mini-git",
+    version = "*",
+    main = "mini.git",
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>gb",
+        function()
+          vim.cmd("vertical Git blame -- %")
+        end,
+        desc = "Git Blame (mini-git)",
+      },
+    },
+    config = function()
+      require("mini.git").setup({})
+      local align_blame = function(au_data)
+        if au_data.data.git_subcommand ~= "blame" then
+          return
         end
 
-        map("n", "]h", function()
-          gs.nav_hunk("next")
-        end, "Next Hunk")
-        map("n", "[h", function()
-          gs.nav_hunk("prev")
-        end, "Prev Hunk")
-        map("n", "]H", function()
-          gs.nav_hunk("last")
-        end, "Last Hunk")
-        map("n", "[H", function()
-          gs.nav_hunk("first")
-        end, "First Hunk")
-        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-        map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
-        map("n", "<leader>ghb", function()
-          gs.blame_line({ full = true })
-        end, "Blame Line")
-        map("n", "<leader>ghB", function()
-          gs.blame()
-        end, "Blame Buffer")
-        map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        map("n", "<leader>ghD", function()
-          gs.diffthis("~")
-        end, "Diff This ~")
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-      end,
-    },
+        local win_src = au_data.data.win_source
+        vim.wo.wrap = false
+        vim.fn.winrestview({ topline = vim.fn.line("w0", win_src) })
+        vim.api.nvim_win_set_cursor(0, { vim.fn.line(".", win_src), 0 })
+
+        vim.wo[win_src].scrollbind, vim.wo.scrollbind = true, true
+      end
+
+      local au_opts = { pattern = "MiniGitCommandSplit", callback = align_blame }
+      vim.api.nvim_create_autocmd("User", au_opts)
+    end,
   },
   {
-    "sindrets/diffview.nvim",
-    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
-  },
-  {
-    "NeogitOrg/neogit",
-    cmd = {
-      "Neogit",
+    "echasnovski/mini.diff",
+    version = "*",
+    keys = {
+      {
+        "<leader>go",
+        function()
+          require("mini.diff").toggle_overlay(0)
+        end,
+        desc = "Toggle mini.diff overlay",
+      },
     },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-      "ibhagwan/fzf-lua",
+    opts = {
+      view = {
+        style = "sign",
+        signs = {
+          add = "▎",
+          change = "▎",
+          delete = "",
+        },
+      },
     },
   },
 }
