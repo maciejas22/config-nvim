@@ -1,24 +1,11 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  event = { "BufReadPre", "BufNewFile" },
-  build = ":TSUpdate",
-  dependencies = {
-    "windwp/nvim-ts-autotag",
-  },
-  config = function()
-    local nvim_treesitter_configs = require("nvim-treesitter.configs")
-    nvim_treesitter_configs.setup({
-      highlight = {
-        enable = true,
-      },
-      context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
-      },
-      indent = { enable = true },
-      autotag = {
-        enable = true,
-      },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    branch = "main",
+    build = ":TSUpdate",
+    ---@class TSConfig
+    opts = {
       ensure_installed = {
         "astro",
         "bash",
@@ -41,15 +28,30 @@ return {
         "vim",
         "yaml",
       },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "gnn",
-          node_incremental = "grn",
-          scope_incremental = "grc",
-          node_decremental = "grm",
-        },
-      },
-    })
-  end,
+    },
+    config = function(_, opts)
+      local alreadyInstalled = require("nvim-treesitter.config").get_installed()
+      local parsersToInstall = vim
+        .iter(opts.ensure_installed)
+        :filter(function(parser)
+          return not vim.tbl_contains(alreadyInstalled, parser)
+        end)
+        :totable()
+      require("nvim-treesitter").install(parsersToInstall)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "*" },
+        callback = function()
+          -- remove error = false when nvim 0.12+ is default
+          if vim.treesitter.get_parser(nil, nil, { error = false }) then
+            vim.treesitter.start()
+          end
+        end,
+      })
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {},
+  },
 }

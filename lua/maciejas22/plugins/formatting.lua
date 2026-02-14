@@ -19,6 +19,9 @@ return {
         markdown = { "prettier" },
         lua = { "stylua" },
         go = { "goimports", "gofmt" },
+        tex = { "tex-fmt" },
+        plaintex = { "tex-fmt" },
+        bib = { "bibtex-tidy" },
       },
       format_on_save = {
         lsp_fallback = true,

@@ -9,7 +9,7 @@ return {
       typescript = { "biomejs", "eslint" },
       javascriptreact = { "biomejs", "eslint" },
       typescriptreact = { "biomejs", "eslint" },
-      svelte = { "biomejs", "eslint" },
+      svelte = { "eslint" },
       python = { "pylint" },
       go = { "golangcilint" },
     }
