@@ -41,7 +41,7 @@ return {
       { "<leader>sD", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
       { "<leader>sg", fzf_call("live_grep"), desc = "Grep (Root Dir)" },
       { "<leader>sG", fzf_call("live_grep", { root = false }), desc = "Grep (cwd)" },
-      { "<leader>sh", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
+      { "<leader>sht", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
       { "<leader>sH", "<cmd>FzfLua highlights<cr>", desc = "Search Highlight Groups" },
       { "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "Jumplist" },
       { "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },

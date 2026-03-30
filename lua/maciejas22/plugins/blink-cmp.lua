@@ -22,10 +22,7 @@ return {
     signature = { enabled = true },
 
     sources = {
-      default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-      per_filetype = {
-        codecompanion = { "codecompanion" },
-      },
+      default = { "lazydev", "lsp", "path", "snippets", "buffer", "codecompanion" },
       providers = {
         lazydev = {
           name = "LazyDev",
