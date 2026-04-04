@@ -1,41 +1,41 @@
 vim.api.nvim_create_autocmd("PackChanged", {
-  callback = function(ev)
-    local name, kind = ev.data.spec.name, ev.data.kind
-    if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
-      if not ev.data.active then
-        vim.cmd.packadd("nvim-treesitter")
-      end
-      vim.cmd("TSUpdate")
-    end
-  end,
+    callback = function(ev)
+        local name, kind = ev.data.spec.name, ev.data.kind
+        if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
+            if not ev.data.active then
+                vim.cmd.packadd("nvim-treesitter")
+            end
+            vim.cmd("TSUpdate")
+        end
+    end,
 })
 
 vim.pack.add({
-  "https://github.com/nvim-lua/plenary.nvim",
-  "https://github.com/folke/tokyonight.nvim",
-  "https://github.com/echasnovski/mini.icons",
-  "https://github.com/stevearc/oil.nvim",
-  "https://github.com/ibhagwan/fzf-lua",
-  "https://github.com/mrjones2014/smart-splits.nvim",
-  "https://github.com/szw/vim-maximizer",
-  "https://github.com/echasnovski/mini.statusline",
-  "https://github.com/echasnovski/mini.surround",
-  "https://github.com/echasnovski/mini.pairs",
-  "https://github.com/echasnovski/mini.clue",
-  "https://github.com/echasnovski/mini-git",
-  "https://github.com/echasnovski/mini.diff",
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main", name = "nvim-treesitter" },
-  "https://github.com/windwp/nvim-ts-autotag",
-  "https://github.com/folke/lazydev.nvim",
-  { src = "https://github.com/saghen/blink.cmp", version = "1.*" },
-  "https://github.com/antosha417/nvim-lsp-file-operations",
-  "https://github.com/neovim/nvim-lspconfig",
-  "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
-  "https://github.com/mason-org/mason.nvim",
-  "https://github.com/mason-org/mason-lspconfig.nvim",
-  "https://github.com/stevearc/conform.nvim",
-  "https://github.com/mfussenegger/nvim-lint",
-  "https://github.com/olimorris/codecompanion.nvim",
+    "https://github.com/nvim-lua/plenary.nvim",
+    "https://github.com/folke/tokyonight.nvim",
+    "https://github.com/echasnovski/mini.icons",
+    "https://github.com/stevearc/oil.nvim",
+    "https://github.com/ibhagwan/fzf-lua",
+    "https://github.com/mrjones2014/smart-splits.nvim",
+    "https://github.com/szw/vim-maximizer",
+    "https://github.com/echasnovski/mini.statusline",
+    "https://github.com/echasnovski/mini.surround",
+    "https://github.com/echasnovski/mini.pairs",
+    "https://github.com/echasnovski/mini.clue",
+    "https://github.com/echasnovski/mini-git",
+    "https://github.com/echasnovski/mini.diff",
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main", name = "nvim-treesitter" },
+    "https://github.com/windwp/nvim-ts-autotag",
+    "https://github.com/folke/lazydev.nvim",
+    { src = "https://github.com/saghen/blink.cmp", version = "1.*" },
+    "https://github.com/antosha417/nvim-lsp-file-operations",
+    "https://github.com/neovim/nvim-lspconfig",
+    "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
+    "https://github.com/mason-org/mason.nvim",
+    "https://github.com/mason-org/mason-lspconfig.nvim",
+    "https://github.com/stevearc/conform.nvim",
+    "https://github.com/mfussenegger/nvim-lint",
+    "https://github.com/olimorris/codecompanion.nvim",
 })
 
 require("tokyonight").setup({ style = "night" })
@@ -45,15 +45,15 @@ require("mini.icons").setup()
 
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 require("oil").setup({
-  view_options = {
-    show_hidden = true,
-  },
+    view_options = {
+        show_hidden = true,
+    },
 })
 
 local function fzf_call(fn_name, opts)
-  return function()
-    require("fzf-lua")[fn_name](opts)
-  end
+    return function()
+        require("fzf-lua")[fn_name](opts)
+    end
 end
 
 vim.keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", { desc = "Buffers" })
@@ -102,35 +102,35 @@ vim.keymap.set("n", "<leader>ca", "<cmd>FzfLua lsp_code_actions<cr>", { desc = "
 local fzf = require("fzf-lua")
 local actions = fzf.actions
 fzf.setup({
-  "default-title",
-  fzf_opts = {
-    ["--no-scrollbar"] = true,
-    ["--cycle"] = true,
-  },
-  lsp = { code_actions = { previewer = "codeaction_native" } },
-  files = {
-    hidden = false,
-    no_ignore = false,
-    actions = {
-      ["alt-i"] = { actions.toggle_ignore },
-      ["alt-h"] = { actions.toggle_hidden },
+    "default-title",
+    fzf_opts = {
+        ["--no-scrollbar"] = true,
+        ["--cycle"] = true,
     },
-  },
-  grep = {
-    hidden = false,
-    no_ignore = false,
-    actions = {
-      ["alt-i"] = { actions.toggle_ignore },
-      ["alt-h"] = { actions.toggle_hidden },
+    lsp = { code_actions = { previewer = "codeaction_native" } },
+    files = {
+        hidden = false,
+        no_ignore = false,
+        actions = {
+            ["alt-i"] = { actions.toggle_ignore },
+            ["alt-h"] = { actions.toggle_hidden },
+        },
     },
-  },
-  keymap = {
-    fzf = {
-      ["ctrl-q"] = "select-all+accept",
-      ["ctrl-d"] = "preview-page-down",
-      ["ctrl-u"] = "preview-page-up",
+    grep = {
+        hidden = false,
+        no_ignore = false,
+        actions = {
+            ["alt-i"] = { actions.toggle_ignore },
+            ["alt-h"] = { actions.toggle_hidden },
+        },
     },
-  },
+    keymap = {
+        fzf = {
+            ["ctrl-q"] = "select-all+accept",
+            ["ctrl-d"] = "preview-page-down",
+            ["ctrl-u"] = "preview-page-up",
+        },
+    },
 })
 
 local smart_splits = require("smart-splits")
@@ -156,296 +156,296 @@ require("mini.pairs").setup({ modes = { insert = true, command = true, terminal 
 
 local miniclue = require("mini.clue")
 miniclue.setup({
-  triggers = {
-    { mode = { "n", "x" }, keys = "<Leader>" },
-    { mode = "n", keys = "[" },
-    { mode = "n", keys = "]" },
-    { mode = "i", keys = "<C-x>" },
-    { mode = { "n", "x" }, keys = "g" },
-    { mode = { "n", "x" }, keys = "'" },
-    { mode = { "n", "x" }, keys = "`" },
-    { mode = { "n", "x" }, keys = '"' },
-    { mode = { "i", "c" }, keys = "<C-r>" },
-    { mode = "n", keys = "<C-w>" },
-    { mode = { "n", "x" }, keys = "z" },
-  },
-  clues = {
-    miniclue.gen_clues.square_brackets(),
-    miniclue.gen_clues.builtin_completion(),
-    miniclue.gen_clues.g(),
-    miniclue.gen_clues.marks(),
-    miniclue.gen_clues.registers(),
-    miniclue.gen_clues.windows(),
-    miniclue.gen_clues.z(),
-  },
+    triggers = {
+        { mode = { "n", "x" }, keys = "<Leader>" },
+        { mode = "n", keys = "[" },
+        { mode = "n", keys = "]" },
+        { mode = "i", keys = "<C-x>" },
+        { mode = { "n", "x" }, keys = "g" },
+        { mode = { "n", "x" }, keys = "'" },
+        { mode = { "n", "x" }, keys = "`" },
+        { mode = { "n", "x" }, keys = '"' },
+        { mode = { "i", "c" }, keys = "<C-r>" },
+        { mode = "n", keys = "<C-w>" },
+        { mode = { "n", "x" }, keys = "z" },
+    },
+    clues = {
+        miniclue.gen_clues.square_brackets(),
+        miniclue.gen_clues.builtin_completion(),
+        miniclue.gen_clues.g(),
+        miniclue.gen_clues.marks(),
+        miniclue.gen_clues.registers(),
+        miniclue.gen_clues.windows(),
+        miniclue.gen_clues.z(),
+    },
 })
 
 require("mini.git").setup()
 vim.keymap.set("n", "<leader>gb", function()
-  vim.cmd("vertical Git blame -- %")
+    vim.cmd("vertical Git blame -- %")
 end, { desc = "Git Blame (mini-git)" })
 
 vim.api.nvim_create_autocmd("User", {
-  pattern = "MiniGitCommandSplit",
-  callback = function(au_data)
-    if au_data.data.git_subcommand ~= "blame" then
-      return
-    end
+    pattern = "MiniGitCommandSplit",
+    callback = function(au_data)
+        if au_data.data.git_subcommand ~= "blame" then
+            return
+        end
 
-    local win_src = au_data.data.win_source
-    vim.wo.wrap = false
-    vim.fn.winrestview({ topline = vim.fn.line("w0", win_src) })
-    vim.api.nvim_win_set_cursor(0, { vim.fn.line(".", win_src), 0 })
+        local win_src = au_data.data.win_source
+        vim.wo.wrap = false
+        vim.fn.winrestview({ topline = vim.fn.line("w0", win_src) })
+        vim.api.nvim_win_set_cursor(0, { vim.fn.line(".", win_src), 0 })
 
-    vim.wo[win_src].scrollbind, vim.wo.scrollbind = true, true
-  end,
+        vim.wo[win_src].scrollbind, vim.wo.scrollbind = true, true
+    end,
 })
 
 require("mini.diff").setup({
-  view = {
-    style = "sign",
-    signs = {
-      add = "▎",
-      change = "▎",
-      delete = "",
+    view = {
+        style = "sign",
+        signs = {
+            add = "▎",
+            change = "▎",
+            delete = "",
+        },
     },
-  },
 })
 vim.keymap.set("n", "<leader>go", function()
-  require("mini.diff").toggle_overlay(0)
+    require("mini.diff").toggle_overlay(0)
 end, { desc = "Toggle mini.diff overlay" })
 
 require("nvim-treesitter").install({
-  "astro",
-  "bash",
-  "c",
-  "css",
-  "dockerfile",
-  "gitignore",
-  "go",
-  "html",
-  "javascript",
-  "json",
-  "lua",
-  "markdown",
-  "markdown_inline",
-  "rust",
-  "svelte",
-  "sql",
-  "tsx",
-  "typescript",
-  "vim",
-  "yaml",
+    "astro",
+    "bash",
+    "c",
+    "css",
+    "dockerfile",
+    "gitignore",
+    "go",
+    "html",
+    "javascript",
+    "json",
+    "lua",
+    "markdown",
+    "markdown_inline",
+    "rust",
+    "svelte",
+    "sql",
+    "tsx",
+    "typescript",
+    "vim",
+    "yaml",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "*" },
-  callback = function()
-    if vim.treesitter.get_parser(nil, nil, { error = false }) then
-      vim.treesitter.start()
-    end
-  end,
+    pattern = { "*" },
+    callback = function()
+        if vim.treesitter.get_parser(nil, nil, { error = false }) then
+            vim.treesitter.start()
+        end
+    end,
 })
 
 require("nvim-ts-autotag").setup()
 
 require("lazydev").setup({
-  library = {
-    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-  },
+    library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+    },
 })
 
 require("blink.cmp").setup({
-  keymap = {
-    preset = "default",
-    ["<CR>"] = { "accept", "fallback" },
-  },
-  signature = { enabled = true },
-  sources = {
-    default = { "lazydev", "lsp", "path", "snippets", "buffer", "codecompanion" },
-    providers = {
-      lazydev = {
-        name = "LazyDev",
-        module = "lazydev.integrations.blink",
-        score_offset = 100,
-      },
+    keymap = {
+        preset = "default",
+        ["<CR>"] = { "accept", "fallback" },
     },
-  },
-  fuzzy = { implementation = "prefer_rust_with_warning" },
+    signature = { enabled = true },
+    sources = {
+        default = { "lazydev", "lsp", "path", "snippets", "buffer", "codecompanion" },
+        providers = {
+            lazydev = {
+                name = "LazyDev",
+                module = "lazydev.integrations.blink",
+                score_offset = 100,
+            },
+        },
+    },
+    fuzzy = { implementation = "prefer_rust_with_warning" },
 })
 
 local lspconfig = require("lspconfig")
 require("lsp-file-operations").setup()
 lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
-  capabilities = vim.tbl_deep_extend(
-    "force",
-    vim.lsp.protocol.make_client_capabilities(),
-    require("lsp-file-operations").default_capabilities()
-  ),
+    capabilities = vim.tbl_deep_extend(
+        "force",
+        vim.lsp.protocol.make_client_capabilities(),
+        require("lsp-file-operations").default_capabilities()
+    ),
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(ev)
-    local opts = { buffer = ev.buf, silent = true }
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    callback = function(ev)
+        local opts = { buffer = ev.buf, silent = true }
 
-    opts.desc = "Smart rename"
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        opts.desc = "Smart rename"
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
-    opts.desc = "Show line diagnostics"
-    vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+        opts.desc = "Show line diagnostics"
+        vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 
-    opts.desc = "Go to previous diagnostic"
-    vim.keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, float = true })
-    end, opts)
+        opts.desc = "Go to previous diagnostic"
+        vim.keymap.set("n", "[d", function()
+            vim.diagnostic.jump({ count = -1, float = true })
+        end, opts)
 
-    opts.desc = "Go to next diagnostic"
-    vim.keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1, float = true })
-    end, opts)
+        opts.desc = "Go to next diagnostic"
+        vim.keymap.set("n", "]d", function()
+            vim.diagnostic.jump({ count = 1, float = true })
+        end, opts)
 
-    opts.desc = "Show documentation for what is under cursor"
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        opts.desc = "Show documentation for what is under cursor"
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 
-    opts.desc = "Restart LSP"
-    vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
-  end,
+        opts.desc = "Restart LSP"
+        vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+    end,
 })
 
 vim.diagnostic.config({
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = " ",
-      [vim.diagnostic.severity.WARN] = " ",
-      [vim.diagnostic.severity.HINT] = "󰠠 ",
-      [vim.diagnostic.severity.INFO] = " ",
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = "󰠠 ",
+            [vim.diagnostic.severity.INFO] = " ",
+        },
+        texthl = {
+            [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+            [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+            [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+            [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+        },
+        numhl = {},
     },
-    texthl = {
-      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-    },
-    numhl = {},
-  },
 })
 
 require("mason").setup()
 
 require("mason-tool-installer").setup({
-  ensure_installed = {
-    "prettier",
-    "biome",
-    "stylua",
-    "eslint_d",
-    "golangci-lint",
-  },
+    ensure_installed = {
+        "prettier",
+        "biome",
+        "stylua",
+        "eslint_d",
+        "golangci-lint",
+    },
 })
 
 require("mason-lspconfig").setup({
-  automatic_installation = true,
-  ensure_installed = {
-    "astro",
-    "ts_ls",
-    "html",
-    "cssls",
-    "tailwindcss",
-    "lua_ls",
-    "gopls",
-    "rust_analyzer",
-  },
+    automatic_installation = true,
+    ensure_installed = {
+        "astro",
+        "ts_ls",
+        "html",
+        "cssls",
+        "tailwindcss",
+        "lua_ls",
+        "gopls",
+        "rust_analyzer",
+    },
 })
 
 vim.g.autoformat = true
 vim.keymap.set("n", "<leader>tf", function()
-  vim.g.autoformat = not vim.g.autoformat
-  print("Autoformat: " .. (vim.g.autoformat and "ON" or "OFF"))
+    vim.g.autoformat = not vim.g.autoformat
+    print("Autoformat: " .. (vim.g.autoformat and "ON" or "OFF"))
 end, { desc = "Toggle autoformat" })
 
 local conform = require("conform")
 conform.setup({
-  formatters_by_ft = {
-    astro = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-    javascript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-    typescript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-    javascriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-    typescriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-    svelte = { "biome", "prettier" },
-    css = { "prettier" },
-    html = { "prettier" },
-    json = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-    yaml = { "prettier" },
-    markdown = { "prettier" },
-    lua = { "stylua" },
-    go = { "goimports", "gofmt" },
-    tex = { "tex-fmt" },
-    plaintex = { "tex-fmt" },
-    bib = { "bibtex-tidy" },
-  },
-  format_on_save = function()
-    if not vim.g.autoformat then
-      return
-    end
+    formatters_by_ft = {
+        astro = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        javascript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        typescript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        javascriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        typescriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        svelte = { "biome", "prettier" },
+        css = { "prettier" },
+        html = { "prettier" },
+        json = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        yaml = { "prettier" },
+        markdown = { "prettier" },
+        lua = { "stylua" },
+        go = { "goimports", "gofmt" },
+        tex = { "tex-fmt" },
+        plaintex = { "tex-fmt" },
+        bib = { "bibtex-tidy" },
+    },
+    format_on_save = function()
+        if not vim.g.autoformat then
+            return
+        end
 
-    return {
-      lsp_fallback = true,
-      async = false,
-      timeout_ms = 1000,
-    }
-  end,
+        return {
+            lsp_fallback = true,
+            async = false,
+            timeout_ms = 1000,
+        }
+    end,
 })
 
 vim.keymap.set({ "n", "v" }, "<leader>fmt", function()
-  conform.format({
-    lsp_fallback = true,
-    async = false,
-    timeout_ms = 1000,
-  })
+    conform.format({
+        lsp_fallback = true,
+        async = false,
+        timeout_ms = 1000,
+    })
 end, { desc = "Format file or range (in visual mode)" })
 
 vim.g.autolint = true
 vim.keymap.set("n", "<leader>tl", function()
-  vim.g.autolint = not vim.g.autolint
-  print("Autolint: " .. (vim.g.autolint and "ON" or "OFF"))
+    vim.g.autolint = not vim.g.autolint
+    print("Autolint: " .. (vim.g.autolint and "ON" or "OFF"))
 end, { desc = "Toggle autolint" })
 
 local lint = require("lint")
 lint.linters_by_ft = {
-  javascript = { "biomejs", "eslint" },
-  typescript = { "biomejs", "eslint" },
-  javascriptreact = { "biomejs", "eslint" },
-  typescriptreact = { "biomejs", "eslint" },
-  svelte = { "eslint" },
-  python = { "pylint" },
-  go = { "golangcilint" },
+    javascript = { "biomejs", "eslint" },
+    typescript = { "biomejs", "eslint" },
+    javascriptreact = { "biomejs", "eslint" },
+    typescriptreact = { "biomejs", "eslint" },
+    svelte = { "eslint" },
+    python = { "pylint" },
+    go = { "golangcilint" },
 }
 
 local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-  group = lint_augroup,
-  callback = function()
-    if not vim.g.autolint then
-      return
-    end
-    lint.try_lint(nil, { ignore_errors = true })
-  end,
+    group = lint_augroup,
+    callback = function()
+        if not vim.g.autolint then
+            return
+        end
+        lint.try_lint(nil, { ignore_errors = true })
+    end,
 })
 
 vim.keymap.set("n", "<leader>ll", function()
-  lint.try_lint(nil, { ignore_errors = false })
+    lint.try_lint(nil, { ignore_errors = false })
 end, { desc = "Trigger linting for current file" })
 
 require("codecompanion").setup({
-  interactions = {
-    chat = {
-      adapter = "openai",
+    interactions = {
+        chat = {
+            adapter = "openai",
+        },
+        inline = {
+            adapter = "openai",
+        },
+        cmd = {
+            adapter = "openai",
+        },
     },
-    inline = {
-      adapter = "openai",
-    },
-    cmd = {
-      adapter = "openai",
-    },
-  },
 })
