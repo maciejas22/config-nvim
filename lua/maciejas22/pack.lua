@@ -337,6 +337,8 @@ require("mason-tool-installer").setup({
     ensure_installed = {
         "prettier",
         "biome",
+        "oxfmt",
+        "oxlint",
         "stylua",
         "eslint_d",
         "golangci-lint",
@@ -367,10 +369,10 @@ local conform = require("conform")
 conform.setup({
     formatters_by_ft = {
         astro = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-        javascript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-        typescript = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-        javascriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
-        typescriptreact = { "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        javascript = { "oxfmt", "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        typescript = { "oxfmt", "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        javascriptreact = { "oxfmt", "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
+        typescriptreact = { "oxfmt", "biome", "prettier", stop_after_first = true, lsp_format = "fallback" },
         svelte = { "biome", "prettier" },
         css = { "prettier" },
         html = { "prettier" },
@@ -412,10 +414,10 @@ end, { desc = "Toggle autolint" })
 
 local lint = require("lint")
 lint.linters_by_ft = {
-    javascript = { "biomejs", "eslint" },
-    typescript = { "biomejs", "eslint" },
-    javascriptreact = { "biomejs", "eslint" },
-    typescriptreact = { "biomejs", "eslint" },
+    javascript = { "oxlint", "biomejs", "eslint" },
+    typescript = { "oxlint", "biomejs", "eslint" },
+    javascriptreact = { "oxlint", "biomejs", "eslint" },
+    typescriptreact = { "oxlint", "biomejs", "eslint" },
     svelte = { "eslint" },
     python = { "pylint" },
     go = { "golangcilint" },
