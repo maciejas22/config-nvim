@@ -136,10 +136,10 @@ fzf.setup({
 local smart_splits = require("smart-splits")
 smart_splits.setup({})
 
-vim.keymap.set("n", "<C-A-h>", smart_splits.resize_left)
-vim.keymap.set("n", "<C-A-j>", smart_splits.resize_down)
-vim.keymap.set("n", "<C-A-k>", smart_splits.resize_up)
-vim.keymap.set("n", "<C-A-l>", smart_splits.resize_right)
+vim.keymap.set("n", "<C-M-h>", smart_splits.resize_left)
+vim.keymap.set("n", "<C-M-j>", smart_splits.resize_down)
+vim.keymap.set("n", "<C-M-k>", smart_splits.resize_up)
+vim.keymap.set("n", "<C-M-l>", smart_splits.resize_right)
 vim.keymap.set("n", "<C-h>", smart_splits.move_cursor_left)
 vim.keymap.set("n", "<C-j>", smart_splits.move_cursor_down)
 vim.keymap.set("n", "<C-k>", smart_splits.move_cursor_up)
@@ -441,13 +441,28 @@ end, { desc = "Trigger linting for current file" })
 require("codecompanion").setup({
     interactions = {
         chat = {
-            adapter = "openai",
+            adapter = {
+                name = "gemini",
+                model = "gemini-3-flash-preview",
+            },
         },
         inline = {
-            adapter = "openai",
+            adapter = {
+                name = "openai",
+                model = "gpt-5.4-mini",
+            },
         },
         cmd = {
-            adapter = "openai",
+            adapter = {
+                name = "gemini",
+                model = "gemini-3-flash-preview",
+            },
+        },
+        background = {
+            adapter = {
+                name = "gemini",
+                model = "gemini-3.1-flash-lite",
+            },
         },
     },
 })
