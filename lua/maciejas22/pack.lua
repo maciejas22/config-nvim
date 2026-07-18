@@ -27,7 +27,8 @@ vim.pack.add({
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main", name = "nvim-treesitter" },
     "https://github.com/windwp/nvim-ts-autotag",
     "https://github.com/folke/lazydev.nvim",
-    { src = "https://github.com/saghen/blink.cmp", version = "1.*" },
+    "https://github.com/saghen/blink.lib",
+    "https://github.com/saghen/blink.cmp",
     "https://github.com/antosha417/nvim-lsp-file-operations",
     "https://github.com/neovim/nvim-lspconfig",
     "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -255,7 +256,9 @@ require("lazydev").setup({
     },
 })
 
-require("blink.cmp").setup({
+local cmp = require("blink.cmp")
+cmp.build():pwait()
+cmp.setup({
     keymap = {
         preset = "default",
         ["<CR>"] = { "accept", "fallback" },
@@ -271,7 +274,6 @@ require("blink.cmp").setup({
             },
         },
     },
-    fuzzy = { implementation = "prefer_rust_with_warning" },
 })
 
 local lspconfig = require("lspconfig")
@@ -414,10 +416,10 @@ end, { desc = "Toggle autolint" })
 
 local lint = require("lint")
 lint.linters_by_ft = {
-    javascript = { "oxlint", "biomejs", "eslint" },
-    typescript = { "oxlint", "biomejs", "eslint" },
-    javascriptreact = { "oxlint", "biomejs", "eslint" },
-    typescriptreact = { "oxlint", "biomejs", "eslint" },
+    javascript = { "oxlint" },
+    typescript = { "oxlint" },
+    javascriptreact = { "oxlint" },
+    typescriptreact = { "oxlint" },
     svelte = { "eslint" },
     python = { "pylint" },
     go = { "golangcilint" },
